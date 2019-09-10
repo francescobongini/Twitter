@@ -1,4 +1,4 @@
-# Twitter sentiment analysi
+# Twitter sentiment analysis
 In this paper, I compare
 the sequential and distributed version of the Twitter
 sentiment analysis. <br />
