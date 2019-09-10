@@ -1,5 +1,5 @@
 # Twitter sentiment analysis
-The project compares
+The project presents
 the sequential and distributed version of the Twitter
 sentiment analysis. <br />
 The entire code is written in Java using Maven. <br />
