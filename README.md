@@ -1,4 +1,6 @@
 # Twitter
-Sentimental analysis with Hadoop framework. <br />
+In this paper, I compare
+the sequential and distributed version of the Twitter
+sentiment analysis. <br />
 The entire code is written in Java using Maven. <br />
-In the project folder you can find the .jar as well, in which you launch the program using Amazon EMR.
+The file .jar in the project folder can be used in Amazon EMR.
