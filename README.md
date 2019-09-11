@@ -9,7 +9,8 @@ In Twitter/src/main/java/com/francesco/Twitter/ you can find the java files. <br
 In particular, for the sequential version: <br />
 * Tweet.java : define the tweet object
 * Train.java : train the model
-* Classifier.java : classify the tweets <br />
+* Classifier.java : classify the tweets 
+* Main.java : executes the program <br />
 
 For the distributed one:
 * Map.java : Map function
