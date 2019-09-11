@@ -8,7 +8,7 @@ The data set is available in http://thinknook.com/twitter-sentiment-analysis-tra
 In Twitter/src/main/java/com/francesco/Twitter/ you can find the java files. In particular, for the sequential version: <br />
 * Tweet.java : define the tweet object
 * Train.java : train the model
-* Classifier.java : classify the tweets
+* Classifier.java : classify the tweets <br />
 For the distributed one:
 * Map.java : Map function
 * Reduce.java : Reduce function
