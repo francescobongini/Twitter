@@ -39,7 +39,7 @@ public class Main_MapReduce extends Configured implements Tool {
 		job.setJarByClass(Main_MapReduce.class);
 		job.setJobName("Twitter");
 		long start = System.currentTimeMillis();
-		FileInputFormat.addInputPath(job, new Path(args[0]));  //gli passo poi come parametro la cartella dove sta testset.csv
+		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1])); //ricordarsi di definire le cartelle di input e output
 		job.addCacheFile(new URI(args[2]));
 		job.setOutputKeyClass(Text.class);

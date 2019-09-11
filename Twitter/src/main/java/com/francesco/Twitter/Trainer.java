@@ -46,10 +46,9 @@ public class Trainer {
   
       }
       }
-  //    System.out.println("pippo");
       try {
 			AbstractExternalizable.compileTo((Compilable) classifier, new File(
-					"model1.txt"));//saving serialize object to text file
+					"model.txt"));//saving serialize object to text file
 			System.out.println("Succefully created a model");
 			System.out.println("numero osservazioni"+i);
     } catch (IOException e) {
