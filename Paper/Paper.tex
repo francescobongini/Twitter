@@ -47,7 +47,7 @@
 %%%%%%%%% ABSTRACT
 \begin{abstract}
 
-In the era of the Internet, social media has become an integral part of modern society. Social networks like Facebook, Instagram and Twitter get huge amount of data each day. Traditional systems are useful in working with data of small size, but they can’t manage such a huge amount data from social networks.
+In the era of the Internet, social media has become an integral part of modern society. Social networks like Facebook, Instagram and Twitter get huge amount of data each day. Traditional systems are useful in working with data of small size, but they can’t manage such a huge amount of data from social networks.
 Hadoop framework stems from the need to process large amounts of data.
 In this paper, I compare the sequential and distributed version of the Twitter sentiment analysis. The aim is not to provide a perfect classifier, rather we want to show the speedup reachable from the distributed version with Hadoop. From the experimental results we see that hadoop gets big benefits regarding the speed and the
 amount of data processed in the same quantity of time.
@@ -57,9 +57,9 @@ amount of data processed in the same quantity of time.
 
 
 \section{Introduction}
-Twitter is one of the most famous social network in the world. Every day millions of tweets are being posted. Sentiment analysis allows us to knowing a person’s behavior toward a particular topic.
+Twitter is one of the most famous social network in the world. Every day millions of tweets are being posted. Sentiment analysis allows us to know a person’s behavior toward a particular topic.
 Sentiment analysis is extracting the perception of people towards a particular issue, brand and scheme from textual data.
-In this article, sentiment analysis is performed on tweets in order to classify whether a tweet is positive or negative. The dataset conteins 1.6 millions of tweets with their relative sentiment, \lq \lq 0" for negative tweets and\lq \lq1" for posititve tweets. The sentences are split into words. This step is also called tokenization. These tokenized words are taken as an input for identifying opinion words.\\
+In this article, sentiment analysis is performed on tweets in order to classify whether a tweet is positive or negative. The dataset contains 1.6 millions of tweets with their relative sentiment, \lq \lq 0" for negative tweets and\lq \lq1" for posititve tweets. The sentences are split into words. This step is also called tokenization. These tokenized words are taken as an input for identifying opinion words.\\
 Sentimental analysis considers two phases: training and classification, performed both using LingPipe library. We consider two versions: the sequential version and the distribuited, which uses the MapReduce framework in the classification part. The whole code is written in Java.
 The main core components of Hadoop framework are MapReduce and HDFS. MapReduce is a programming model for processing larger data sets and HDFS is a Hadoop Distributed File System that stores data in the form of memory blocks and distributes them across clusters.
 
@@ -79,10 +79,10 @@ LingPipe library allows to train the model very easily. In this phase, the algor
 \end{algorithmic}
 \end{algorithm} 
 \\
-The object tweet is defined as the his sentiment (negative or positive) and the text. Each tweet read is used to train the model. The classifier is then stored in \lq\lq model.txt" and it will be used to classify new tweets.
+The object tweet is defined as his sentiment (negative or positive) and the text. Each tweet read is used to train the model. The classifier is then stored in \lq\lq model.txt" and it will be used to classify new tweets.
 
 \section{Classification}
-The classification phase consists to classify new tweets, not always used in the training part. In particular, we consider the sequential and the distributed version.
+The classification phase consists in classifing new tweets, not always used in the training part. In particular, we consider the sequential and the distributed version.
 \subsection{Sequential version}
 Sequential classification is very easy. Here is the pseudocode:\\
 \begin{algorithm}
@@ -105,7 +105,7 @@ Sequential classification is very easy. Here is the pseudocode:\\
 \end{algorithm} \\
 The program uses the model trained before to classify each tweet. It returns the number of tweets classified as positive and negative .
 \subsection{Distributed version}
-Distributed version is performed with MapReduce framework. MapReduce is a processing technique and a program model for distributed computing based on java. The MapReduce algorithm contains two important tasks, namely Map and Reduce.  Map takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). Secondly, reduce task, which takes the output from a map as an input and combines those data tuples into a smaller set of tuples. The major advantage of MapReduce is that it is easy to scale data processing over multiple computing nodes. Here is the pseudocode of the map function:\\
+Distributed version is performed with MapReduce framework. MapReduce is a processing technique and a program model for distributed computing based on Java. The MapReduce algorithm contains two important tasks, namely Map and Reduce.  Map takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). Secondly, reduce task, which takes the output from a map as an input and combines those data tuples into a smaller set of tuples. The major advantage of MapReduce is that it is easy to scale data processing over multiple computing nodes. Here is the pseudocode of the map function:\\
 \begin{algorithm}
 \label{Map}
 \caption{Map}
@@ -115,7 +115,7 @@ Distributed version is performed with MapReduce framework. MapReduce is a proces
 \State \Return classified, 1;
 \end{algorithmic}
 \end{algorithm} \\
-In order to improve the performances, model file is added to distributed cache. In this way, the file becomes available to all map tasks. The type of the tweet text is Text while the value is IntWritable. These types are the Hadoop variant of Integer and String which are been optimized for serialization in the Hadoop environment. An integer would use the default Java Serialization which is very costly in Hadoop environment. The map function classifies the tweet and returns the sentiment classified and the value 1.\\
+In order to improve the performances, the model file is added to the distributed cache. In this way, the file becomes available to all map tasks. The type of the tweet text is Text while the value is IntWritable. These types are the Hadoop variant of Integer and String which have been optimized for serialization in the Hadoop environment. An integer would use the default Java Serialization which is very costly in Hadoop environment. The map function classifies the tweet and returns the sentiment classified and the value 1.\\
 The output obtained is a data set of tuples (key/value pairs). The reduce funtion takes the output from a map and counts the number of positive and negative tweets classified.
 \begin{algorithm}
 \label{Reduce}
@@ -163,7 +163,7 @@ Hadoop is not a good solution for small data. In this first example the model cl
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/1000b"}.png}
 \caption{Barplot 1000 tweets}\label{types}
 \end{figure}
-The reason is that always there is some initial delay while running MapReduce jobs, for example checking input/output paths, split creation, map creation, management of the tasks etc. In this case sequential version is preferible.
+The reason is that there is always some initial delay while running MapReduce jobs, for example checking input/output paths, split creation, map creation, management of the tasks etc. In this case sequential version is preferable.
 
 \subsection{1.6M tweets}
 We consider now the classification of the entire data set of 1.6 millions of tweets.
@@ -172,7 +172,7 @@ We consider now the classification of the entire data set of 1.6 millions of twe
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/norm"}.png}
 \caption{Speedup 1.6M tweets}\label{types}
 \end{figure}
-As we can see Hadoop has not good performance also this time. By default, in fact, EMR considers just 2 mappers if the input size is only one file. In addiction, time to manage and move data to the distributed environment is required.
+As we can see Hadoop has not a good performance also this time. By default, in fact, EMR considers just 2 mappers if the input size is only one file. In addiction, time to manage and move data to the distributed environment is required.
 
 \subsection{1.6M tweets in 5 input splits}
 In order to improve the performances, original data set is divided in 5 input data. Each split becomes input of each mapper and will be stored in the slave data node. The number of input data determines the number of mappers. The number of reducers is setted to 5.
@@ -198,9 +198,9 @@ Hadoop works well with huge amount of data. In order to reduce the impact of the
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10x3norm"}.png}
-\caption{Speedup 1.6M tweets}\label{types}
+\caption{Speedup 4.8M tweets}\label{types}
 \end{figure}
-In fact, we can see that using 6 nodes Hadoop allows us to obtain a speedup of almost 9, rather than 6 in the previous example.
+In fact, we can see that using 6 nodes, Hadoop allows us to obtain a speedup of almost 9, rather than 6 in the previous example.
 This example dimostrates us the importance of choosing the number of maps.
 
 \subsection{4.8M tweets in 20 input splits}
@@ -208,13 +208,13 @@ In this last example, we consider 20 input splits. As we can see, we obtain stil
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/20x3norm"}.png}
-\caption{Speedup 1.6M tweets}\label{types}
+\caption{Speedup 4.8M tweets}\label{types}
 \end{figure}
 The trend is linear. Increasing the number of nodes we expect an increasement of the speedup. The program seems to be scalable.
 
 
 \section{Conclusions}
-In this paper I compared the sequential and distributed version of the Twitter sentimental analysis with Hadoop framework. For enough big data set, distributed version is preferible for the time spent and the amount of data processable in the same time. In same cases it achieved 9 of speedup with 6 nodes. Hadoop has dimostrated to be a valid solution to processing huge amount of data. 
+In this paper I compared the sequential and distributed version of the Twitter sentimental analysis with Hadoop framework. For data set big enough, distributed version is preferible for the time spent and the amount of data processable in the same time. In some cases it achieved a speed-up of 9 or more with 6 nodes. Hadoop has dimostrated to be a valid solution for processing of huge amount of data. 
 
 
 
