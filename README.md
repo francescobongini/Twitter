@@ -9,16 +9,12 @@ In Twitter/src/main/java/com/francesco/Twitter/ you can find the java files. <br
 In particular, for the sequential version: <br />
 * Tweet.java : define the tweet object
 * Train.java : train the model
-* Classifier.java : classify the tweets <br /> <br />
+* Classifier.java : classify the tweets <br />
 
 For the distributed one:
 * Map.java : Map function
 * Reduce.java : Reduce function
 * Main_MapReduce : Define and launch the MR job
-
-
-
-
 
 
 The sequential version can be compiled and launched with Eclipse, while the the distributed one with Maven typing the following code from the terminal:  <br />
