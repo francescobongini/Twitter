@@ -15,7 +15,7 @@ In particular, for the sequential version: <br />
 For the distributed one:
 * Map.java : Map function
 * Reduce.java : Reduce function
-* Main_MapReduce : Define and launch the MR job
+* Main_MapReduce : Defines and launches the MR job
 
 
 The sequential version can be compiled and launched with Eclipse, while the the distributed one with Maven typing the following code from the terminal:  <br />
