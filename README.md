@@ -10,6 +10,7 @@ In particular, for the sequential version: <br />
 * Tweet.java : define the tweet object
 * Train.java : train the model
 * Classifier.java : classify the tweets <br /> <br />
+
 For the distributed one:
 * Map.java : Map function
 * Reduce.java : Reduce function
