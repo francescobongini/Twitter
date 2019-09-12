@@ -14,6 +14,7 @@ In particular, for the sequential version: <br />
 
 For the distributed one:
 * Map.java : Map function
+* Partition.java : Partition function
 * Reduce.java : Reduce function
 * Main_MapReduce : Defines and launches the MR job
 
