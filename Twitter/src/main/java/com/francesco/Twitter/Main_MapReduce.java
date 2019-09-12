@@ -39,7 +39,7 @@ public class Main_MapReduce extends Configured implements Tool {
 		job.setJarByClass(Main_MapReduce.class);
 		job.setJobName("Twitter");
 		long start = System.currentTimeMillis();
-		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileInputFormat.addInputPath(job, new Path(args[0]));  //gli passo poi come parametro la cartella dove sta testset.csv
 		FileOutputFormat.setOutputPath(job, new Path(args[1])); //ricordarsi di definire le cartelle di input e output
 		job.addCacheFile(new URI(args[2]));
 		job.setOutputKeyClass(Text.class);
@@ -47,9 +47,9 @@ public class Main_MapReduce extends Configured implements Tool {
 		//job.setOutputFormatClass(TextOutputFormat.class);
 		System.out.println("fino a qui tutto ok");
 		job.setMapperClass(Map.class);
+		job.setPartitionerClass(Partition.class);
 		job.setReducerClass(Reduce.class);
-		job.setNumReduceTasks(10);
-		System.out.println("fino a qui tutto ok");
+		job.setNumReduceTasks(5);
 		int returnValue = job.waitForCompletion(true) ? 0:1;
 		System.out.println("job.isSuccessful " + job.isSuccessful());
 		long elapsedTime= System.currentTimeMillis()-start;

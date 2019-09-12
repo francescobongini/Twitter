@@ -34,7 +34,7 @@ public class Trainer {
           final String[] headers = beanReader.getHeader(true);
           final CellProcessor[] processors = Main.getProcessors();
  
-          while ((tweet = beanReader.read(Tweet.class, headers, processors)) != null) {// && i<50000 se voglio un campione
+          while ((tweet = beanReader.read(Tweet.class, headers, processors)) != null && i<300000) {// && i<50000 se voglio un campione
           i++;
 	  String sentiment=tweet.getSentiment().toString();
 	  String text=tweet.getText();
@@ -46,9 +46,10 @@ public class Trainer {
   
       }
       }
+  //    System.out.println("pippo");
       try {
 			AbstractExternalizable.compileTo((Compilable) classifier, new File(
-					"model.txt"));//saving serialize object to text file
+					"model1.txt"));//saving serialize object to text file
 			System.out.println("Succefully created a model");
 			System.out.println("numero osservazioni"+i);
     } catch (IOException e) {

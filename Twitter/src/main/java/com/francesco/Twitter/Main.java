@@ -47,7 +47,7 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class Main {
 	 
-    static final String CSV_FILENAME = "tweet.csv";
+    static final String CSV_FILENAME = "testset.csv";
 
     /**
      * @param args

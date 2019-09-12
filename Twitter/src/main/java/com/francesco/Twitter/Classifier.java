@@ -41,13 +41,13 @@ public class Classifier {
 	public static int classify(Tweet tweet) {
 		
 		String text = new String ("Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D");
-		
+		//System.out.println("pippo");
 		String sentiment = tweet.getSentiment().toString();
 	    int numTests = 0;
 	    int numCorrect = 0;
-	    System.out.println(text); 
+	    System.out.println(text); //quindi lo legge.
 	    Classifier classifier = new Classifier
-	    Classification classification = classifier.classify(tweet.getText()); 
+	    Classification classification = classifier.classify(tweet.getText()); //classifier è un oggetto nullo.
 	    String resultCategory = classification.bestCategory();
 	    if (resultCategory.equals(tweet.getSentiment()))
 	    	++numCorrect;
