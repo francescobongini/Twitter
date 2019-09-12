@@ -73,9 +73,9 @@ LingPipe library allows to train the model very easily. In this phase, the algor
 \begin{algorithmic}
 	\State Inizialize classifier;
     		\For{each tweet} \do \\
-			\State classifier.handle(tweet);
+			\State classifier.handle(tweet)
 		\EndFor
-    		\State saveModel();   	
+    		\State saveModel()	
 \end{algorithmic}
 \end{algorithm} 
 \\
@@ -89,18 +89,18 @@ Sequential classification is very easy. Here is the pseudocode:\\
 \label{Sequential classification}
 \caption{Sequential classification}
 \begin{algorithmic}
-\State model=LoadModel();
-\State pos=0;
-\State neg=0;
+\State model=LoadModel()
+\State pos=0
+\State neg=0
     	\For{each tweet} \do \\
-		\State classified=classify(model, tweet).bestCategory();
+		\State classified=classify(model, tweet).bestCategory()
 		\State \textbf{if}  classified==\lq\lq0"
-			\State\hspace{\algorithmicindent} neg=neg+1;
+			\State\hspace{\algorithmicindent} neg=neg+1
 		\State \textbf{else} 
-		\State\hspace{\algorithmicindent}pos=pos+1;
+		\State\hspace{\algorithmicindent}pos=pos+1
 		\State \textbf{end if} 
 	\EndFor 	
-\State \Return pos, neg;
+\State \Return pos, neg
 \end{algorithmic}
 \end{algorithm} \\
 The program uses the model trained before to classify each tweet. It returns the number of tweets classified as positive and negative .
@@ -110,9 +110,9 @@ Distributed version is performed with MapReduce framework. MapReduce is a proces
 \label{Map}
 \caption{Map}
 \begin{algorithmic}
-\State model=addCacheFile(model);
-\State classified=classify(model, tweet).bestCategory();
-\State \Return classified, 1;
+\State model=addCacheFile(model)
+\State classified=classify(model, tweet).bestCategory()
+\State \Return classified, 1
 \end{algorithmic}
 \end{algorithm} \\
 In order to improve the performances, the model file is added to the distributed cache. In this way, the file becomes available to all map tasks. The type of the tweet text is Text while the value is IntWritable. These types are the Hadoop variant of Integer and String which have been optimized for serialization in the Hadoop environment. An integer would use the default Java Serialization which is very costly in Hadoop environment. The map function classifies the tweet and returns the sentiment classified and the value 1.\\
@@ -121,15 +121,16 @@ The output obtained is a data set of tuples (key/value pairs). The reduce funtio
 \label{Reduce}
 \caption{Reduce}
 \begin{algorithmic}
-\State count=0;
+\State count=0
     	\For{each tuple with same key k} \do \\
-		\State count=count+1;
+		\State count=count+1
 	\EndFor 
-\State \Return k, count;
+\State \Return k, count
 \end{algorithmic}
 \end{algorithm} \\
-The reduce function returns the number of positive and negative tweets.\\
-The distributed version is performed with Amazon EMR.
+Here is the pseudocode:\\ \\
+With multiple reducers, we need some way to determine the appropriate one to send a (key/value) pair outputted by a mapper. The partition phase takes place after the Map phase and before the Reduce phase. In this phase, all the values for each key returned from the mapper are grouped together, making sure that all the values of a single key go to the same reducer.
+\\The distributed version is performed with Amazon EMR.
 \subsection{EMR}
 Amazon Elastic MapReduce (EMR) provides tools for big data processing and analysis, across a Hadoop cluster of virtual servers on Amazon Elastic Compute Cloud (EC2) and Amazon Simple Storage Service (S3). A cluster is a collection of nodes. A node is a process running on a virtual or physical machine. In the following analysis, each node has a r4.xlarge istance with four cores and 30.5 GB of RAM. The data sets are stored in Amazon S3. In the analysis I use a master node to manage from 2 to 6 slave nodes.
 
@@ -175,7 +176,7 @@ We consider now the classification of the entire data set of 1.6 millions of twe
 As we can see Hadoop has not a good performance also this time. By default, in fact, EMR considers just 2 mappers if the input size is only one file. In addiction, time to manage and move data to the distributed environment is required.
 
 \subsection{1.6M tweets in 5 input splits}
-In order to improve the performances, original data set is divided in 5 input data. Each split becomes input of each mapper and will be stored in the slave data node. The number of input data determines the number of mappers. The number of reducers is setted to 5.
+In order to improve the performances, original data set is divided in 5 input data. Each split becomes input of each mapper and will be stored in the slave data node. The number of input data determines the number of mappers. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/5norm"}.png}
@@ -185,7 +186,7 @@ Finally we note good improvements. The reason is that for each input split Hadoo
 
 
 \subsection{1.6M tweets in 10 input splits}
-Let's consider 10 input splits in the original data set. The number of reducers is setted to 10.
+Let's consider 10 input splits in the original data set.
 \begin{figure}[H]
 \centering
 \includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10norm"}.png}

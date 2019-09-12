@@ -49,7 +49,6 @@ public class Main_MapReduce extends Configured implements Tool {
 		job.setMapperClass(Map.class);
 		job.setPartitionerClass(Partition.class);
 		job.setReducerClass(Reduce.class);
-		job.setNumReduceTasks(5);
 		int returnValue = job.waitForCompletion(true) ? 0:1;
 		System.out.println("job.isSuccessful " + job.isSuccessful());
 		long elapsedTime= System.currentTimeMillis()-start;
