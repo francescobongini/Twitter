@@ -1,0 +1,276 @@
+\documentclass[9pt]{beamer}
+
+%%% Dichiarazione dei pacchetti standard.
+%\usepackage[italian]{babel}
+\usepackage{graphics}
+\usepackage{epstopdf}
+\usepackage{amsmath,amsthm,amstext,amsbsy,amsopn,amsfonts}
+%\usepackage[italian]{babel}
+\usepackage{amstext,amssymb,amsopn,amsthm}
+\usepackage{amsmath,natbib}
+\usepackage{amssymb,amsthm,bm,bbold}
+\usepackage[mathscr]{eucal}
+\usepackage{geometry}
+\setbeamercovered{transparent}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+  % or whatever (possibly just delete it)\usepackage[english]{babel}
+% or whatever
+% or whatever
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{hyperref} %per il link
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{newcent}
+\usepackage{algorithm}
+\usepackage{verbatim}
+\usepackage{ragged2e}
+\usepackage{lipsum}
+\usepackage{pgffor}
+\usepackage{caption}
+\hypersetup{
+    colorlinks,
+    urlcolor=blue
+}
+\setbeamertemplate{caption}[numbered]
+%\setcounter{MaxMatrixCols}{10}
+\setbeamertemplate{footline}[frame number]
+
+%\setcounter{MaxMatrixCols}{10}
+\newcommand*\oldmacro{}%
+\let\oldmacro\insertshorttitle%
+\renewcommand*\insertshorttitle{%
+  \oldmacro\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+\usetheme{Malmoe}
+
+%\usepackage{times}
+\usepackage[T1]{fontenc}
+\usecolortheme{whale}
+\title[Parallel Computing]{Twitter sentiment analysis with Hadoop}% (optional, use only with long paper titles)
+\author[Curriculum Data Science] % (optional, use only with lots of authors)
+{Francesco Bongini
+%\vspace{0.1cm}
+}
+\date[]{September 2019
+}
+%(optional, should be abbreviation of conference name)
+
+\begin{document}
+\frame{\titlepage{}}
+\frame{\frametitle{Introduction}
+\justifying
+In the era of the Internet, social media has become an integral part of modern society. Social networks like Facebook, Instagram and Twitter get huge amount of data each day.\\Hadoop framework stems from the need to process large amounts of data.
+\begin{figure}[H]
+\centering
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/social"}.jpg}
+\caption{Social networks most popular}\label{1}
+\end{figure}
+
+}
+
+\frame{\frametitle{Sentiment analysis}
+Sentiment analysis involves to classify texts in positive, negative or neutral, often using machine learning models.\\ \vspace{0.3cm}
+In this project, sentiment analysis is performed on a dataset of tweets from Twitter, in order to classify positive and negative tweets.
+\begin{figure}[H]
+\centering
+\includegraphics[width=4.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/sentiment"}.png}
+\caption{Classifing positive and negative tweets}\label{1}
+\end{figure}
+}
+
+
+\frame{\frametitle{Training}
+\justifying
+Given a set of examples, the algorithm learns to recognize positive and negative tweets.\\ \vspace{0.3cm} The training phase is sequential. Parallel version would need a critical section to allow threads to access the shared memory. In order to guarantee the mutul exclusion, we lose the benefits of the parallelizazion.
+
+
+}
+
+\frame{\frametitle{Training with LingPipe}
+\justifying
+LingPipe library in Java allows to train the model very easily.
+\begin{algorithm}[H]
+\label{sequenziale}
+\caption{Sequential version}
+Inizialize classifier\\
+\textbf{For} each tweet \textbf{do}\\
+\hspace*{12pt}\hspace*{12pt}classifier.handle(tweet)\\
+\textbf{EndFor}\\
+SaveModel()
+\end{algorithm} 
+The model is then stored and will be load in the classification phase.
+}
+
+
+\frame{\frametitle{Classification}
+\justifying
+The classification phase consists in classifing new tweets, not always used in the training part.
+Two versions:
+\begin{itemize}
+\justifying
+\vspace{0.3cm}
+\item[$\bullet$] Sequential version
+\vspace{0.3cm} 
+\item[$\bullet$] Distributed version
+\end{itemize}
+}
+
+
+\frame{\frametitle{Sequential version}
+\justifying
+With LingPipe the classification phase is very easy. Here is the pseudocode:
+\begin{algorithm}[H]
+\label{sequenziale}
+\caption{Sequential classification}
+model=LoadModel()\\
+pos=0\\
+neg=0\\
+\textbf{For} each tweet \textbf{do} \\
+		\hspace*{12pt}classified=classify(model, tweet).bestCategory()\\
+		\hspace*{12pt}\textbf{if}  classified==\lq\lq0"\\
+		 \hspace*{24pt} neg=neg+1\\
+	\hspace*{12pt}\textbf{else} \\
+		\hspace*{24pt}pos=pos+1\\
+	\hspace*{12pt}\textbf{end if} \\
+	\textbf{EndFor} 	\\
+ \textbf{Return} pos, neg
+\end{algorithm} 
+
+
+}
+
+
+\frame{\frametitle{Distributed version}
+\justifying
+Distributed version is performed using \textbf{Hadoop} framework. MapReduce is a processing technique and a program model for distributed computing based on Java. The MapReduce algorithm contains two important tasks, namely Map and Reduce.
+}
+
+
+\frame{\frametitle{Map}
+\justifying
+\begin{algorithm}[H]
+\label{Map}
+\caption{Map}
+model=addCacheFile(model)\\
+classified=classify(model, tweet).bestCategory()\\
+\textbf{Return} classified, 1
+\end{algorithm}
+The model is added to the distributed cache, in order to improve the speed.\\
+The map function classifies the tweet and returns the sentiment classified and the value 1.
+}
+
+\frame{\frametitle{Partitioner}
+\justifying
+The partition phase takes place after the Map phase and before the Reduce phase. In this phase, all the values for each key returned from the mapper are grouped together, making sure that all the values of a single key go to the same reducer.
+\begin{figure}[H]
+\centering
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/partition"}.jpg}
+\caption{Classifing positive and negative tweets}\label{1}
+\end{figure}
+}
+
+\frame{\frametitle{Reduce}
+\justifying
+The reduce function receives the tuples from the map and counts the number of positive and negative classified tweets.
+\begin{algorithm}[H]
+\label{Reduce}
+\caption{Reduce}
+count=0\\
+    	\textbf{For} each tuple \textbf{do} \\
+\hspace*{12pt}count=count+1\\
+	\textbf{EndFor}\\
+\textbf{Return} k, count
+\end{algorithm} 
+}
+
+
+
+
+\frame{\frametitle{Amazon EMR}
+\justifying
+The performance analysis of the distributed version is performed using Amazon EMR. It provides tools for big data processing and analysis, across a Hadoop cluster.
+\\A cluster is a collection of nodes. A node is a process running on a virtual or physical machine.\\ \vspace{0.3cm}In the following analysis, each node has a r4.xlarge istance with four cores and 30.5 GB of RAM.
+}
+
+\frame{\frametitle{Speedup}
+\justifying
+Speedup is an index that measures the relative performance of two systems processing the same problem.
+It is defined as: $$S_p=t_s/t_p$$ where P is the number of processors, $t_s$ is the completion time of the sequential 
+algorithm and $t_p$ is the completion time of the parallel algorithm.
+}
+
+\frame{\frametitle{1000 tweets}
+\justifying
+Hadoop is not a good solution for small data.
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/1000"}.png}
+\caption{Speedup 1000 tweets}\label{types}
+\end{figure}
+The sequential version is faster than the distributed one.
+}
+
+
+\frame{\frametitle{1.6M tweets}
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/norm"}.png}
+\caption{Speedup 1.6M tweets}\label{types}
+\end{figure}
+By default, EMR considers just 2 mappers if the input size is only one file.
+}
+
+
+\frame{\frametitle{1.6M tweets in 5 input splits}
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/5norm"}.png}
+\caption{Speedup 1.6M tweets}\label{types}
+\end{figure}
+For each input split Hadoop creates one map task to process records in that input split. That is how parallelism is achieved in Hadoop framework. 
+
+}
+
+\frame{\frametitle{1.6M tweets in 10 input splits}
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10norm"}.png}
+\caption{Speedup 1.6M tweets}\label{types}
+\end{figure}
+Same trend of the previous example but with speedup higher.
+}
+
+\frame{\frametitle{4.8M tweets in 10 input splits}
+\justifying
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10x3norm"}.png}
+\caption{Speedup 4.8M tweets}\label{types}
+\end{figure}
+}
+
+\frame{\frametitle{4.8M tweets in 20 input splits}
+\justifying
+\begin{figure}[H]
+\centering
+\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/20x3norm"}.png}
+\caption{Speedup 4.8M tweets}\label{types}
+\end{figure}
+}
+
+\frame{\frametitle{Conclusions}
+\justifying
+Today, Hadoop is rapidly becoming popular as an open source database management system for processing enormous data sets using the programming tool called MapReduce. 	\\
+In my experimental analysis, Hadoop dimostrated to be a valid solution for processing of huge amount of data. The most of time we reached high values of speedup.
+
+}
+
+
+
+
+
+\end{document}
