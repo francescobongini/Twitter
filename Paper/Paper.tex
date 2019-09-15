@@ -115,7 +115,7 @@ Distributed version is performed with MapReduce framework. MapReduce is a proces
 \State \Return classified, 1
 \end{algorithmic}
 \end{algorithm} \\
-In order to improve the performances, the model file is added to the distributed cache. In this way, the file becomes available to all map tasks. The type of the tweet text is Text while the value is IntWritable. These types are the Hadoop variant of Integer and String which have been optimized for serialization in the Hadoop environment. An integer would use the default Java Serialization which is very costly in Hadoop environment. The map function classifies the tweet and returns the sentiment classified and the value 1.\\
+In order to improve the reliability, the model file is added to the distributed cache. In this way, the file becomes available to all map tasks. The type of the tweet text is Text while the value is IntWritable. These types are the Hadoop variant of Integer and String which have been optimized for serialization in the Hadoop environment. An integer would use the default Java Serialization which is very costly in Hadoop environment. The map function classifies the tweet and returns the sentiment classified and the value 1.\\
 The output obtained is a data set of tuples (key/value pairs). The reduce function takes the output from a map and counts the number of positive and negative tweets classified.
 \begin{algorithm}
 \label{Reduce}
