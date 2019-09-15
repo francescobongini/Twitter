@@ -159,7 +159,7 @@ model=addCacheFile(model)\\
 classified=classify(model, tweet).bestCategory()\\
 \textbf{Return} classified, 1
 \end{algorithm}
-The model is added to the distributed cache, in order to improve the speed.\\
+The model is added to the distributed cache, in order to make it accessible to all maps.\\
 The map function classifies the tweet and returns the sentiment classified and the value 1.
 }
 
@@ -208,7 +208,7 @@ algorithm and $t_p$ is the completion time of the parallel algorithm.
 Hadoop is not a good solution for small data.
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/1000"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/1000"}.png}
 \caption{Speedup 1000 tweets}\label{types}
 \end{figure}
 The sequential version is faster than the distributed one.
@@ -218,7 +218,7 @@ The sequential version is faster than the distributed one.
 \frame{\frametitle{1.6M tweets}
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/norm"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/norm"}.png}
 \caption{Speedup 1.6M tweets}\label{types}
 \end{figure}
 By default, EMR considers just 2 mappers if the input size is only one file.
@@ -228,7 +228,7 @@ By default, EMR considers just 2 mappers if the input size is only one file.
 \frame{\frametitle{1.6M tweets in 5 input splits}
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/5norm"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/5norm"}.png}
 \caption{Speedup 1.6M tweets}\label{types}
 \end{figure}
 For each input split Hadoop creates one map task to process records in that input split. That is how parallelism is achieved in Hadoop framework. 
@@ -238,26 +238,27 @@ For each input split Hadoop creates one map task to process records in that inpu
 \frame{\frametitle{1.6M tweets in 10 input splits}
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10norm"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10norm"}.png}
 \caption{Speedup 1.6M tweets}\label{types}
 \end{figure}
 Same trend of the previous example but with speedup higher.
 }
 
-\frame{\frametitle{4.8M tweets in 10 input splits}
+\frame{\frametitle{10 input splits}
 \justifying
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10x3norm"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/10x3norm"}.png}
 \caption{Speedup 4.8M tweets}\label{types}
 \end{figure}
+Hadoop works well with big data sets, so the original data set is tripled.
 }
 
-\frame{\frametitle{4.8M tweets in 20 input splits}
+\frame{\frametitle{20 input splits}
 \justifying
 \begin{figure}[H]
 \centering
-\includegraphics[width=6.8cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/20x3norm"}.png}
+\includegraphics[width=7.5cm]{{"C:/Users/Francesco/Desktop/unifi/Magistrale/Parallel Computing/Twitter/Immagini/20x3norm"}.png}
 \caption{Speedup 4.8M tweets}\label{types}
 \end{figure}
 }
