@@ -1,4 +1,5 @@
 # Twitter sentiment analysis
+![Image detection](Immagini/sentiment.png)
 The project presents
 the sequential and distributed versions of the Twitter
 sentiment analysis. <br />
